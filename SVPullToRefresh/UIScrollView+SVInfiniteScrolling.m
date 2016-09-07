@@ -194,6 +194,10 @@ UIEdgeInsets scrollViewOriginalContentInsets;
 - (void)scrollViewDidScroll:(CGPoint)contentOffset {
     if(self.state != SVInfiniteScrollingStateLoading && self.enabled) {
         CGFloat scrollViewContentHeight = self.scrollView.contentSize.height;
+        if (fabs(scrollViewContentHeight) < 0.001) {
+          // Content is empty, should use pull down to refresh instead of pull up to load more.
+          return;
+        }
         CGFloat scrollOffsetThreshold = scrollViewContentHeight-self.scrollView.bounds.size.height;
         
         if(!self.scrollView.isDragging && self.state == SVInfiniteScrollingStateTriggered)
