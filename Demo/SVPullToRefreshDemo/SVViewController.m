@@ -9,7 +9,7 @@
 #import "SVViewController.h"
 #import "SVPullToRefresh.h"
 #import "SVPullToRefreshLoadingView.h"
-
+#import "SVInfiniteScrollingLoadingView.h"
 @interface SVViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) NSMutableArray *dataSource;
@@ -33,6 +33,10 @@
         [weakSelf insertRowAtTop];
     }];
     
+    [self.tableView addInfiniteScrollingWithActionHandler:^{
+        [weakSelf insertRowAtBottom];
+    }];
+    
     NSString *imagePrefx = @"loading_black_";
     NSInteger imageCount = 8;
     NSMutableArray *array = [[NSMutableArray alloc] initWithCapacity:imageCount];
@@ -40,21 +44,30 @@
         NSString *imageName = [NSString stringWithFormat:@"%@%02ld", imagePrefx, (long)index];
         [array addObject:[UIImage imageNamed:imageName]];
     }
-    SVLoadingView *loadingView = [[SVLoadingView alloc] initWithFrame:CGRectZero];
+    SVPullToRefreshLoadingView *loadingView = [[SVPullToRefreshLoadingView alloc] initWithFrame:CGRectZero];
     loadingView.dragingAnimationImages = array;
+    
+    SVInfiniteScrollingLoadingView *infiniteLoadingView = [[SVInfiniteScrollingLoadingView alloc] initWithFrame:CGRectZero];
+    infiniteLoadingView.loadingAnimationImages = array;
+    
     [array removeAllObjects];
     imagePrefx = @"loading_white_";
-    
     for (NSInteger index = 1; index <= imageCount; ++index) {
         NSString *imageName = [NSString stringWithFormat:@"%@%02ld", imagePrefx, (long)index];
         [array addObject:[UIImage imageNamed:imageName]];
     }
+    
     loadingView.loadingAnimationImages = array;
     [self.tableView.pullToRefreshView setCustomView:loadingView forState:SVPullToRefreshStateAll];
-    self.tableView.pullToRefreshView.backgroundColor = [UIColor redColor]; // Just for text clear
-    [self.tableView addInfiniteScrollingWithActionHandler:^{
-        [weakSelf insertRowAtBottom];
-    }];
+    
+    infiniteLoadingView.loadingAnimationImages = array;
+    [self.tableView.infiniteScrollingView setCustomView:infiniteLoadingView forState:SVInfiniteScrollingStateAll];
+    
+    
+    // Following lines is just for text clear
+    self.tableView.pullToRefreshView.backgroundColor = [UIColor redColor];
+    self.tableView.infiniteScrollingView.backgroundColor = [UIColor redColor];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated {

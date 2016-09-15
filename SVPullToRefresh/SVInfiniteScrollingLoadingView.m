@@ -1,19 +1,19 @@
 //
-//  SVPullToRefreshLoadingView.m
+//  SVPullInfiniteScrollingLoadingView.m
 //  SVPullToRefreshDemo
 //
 //  Created by arvin.tan on 9/15/16.
 //  Copyright © 2016 Home. All rights reserved.
 //
 
-#import "SVPullToRefreshLoadingView.h"
+#import "SVInfiniteScrollingLoadingView.h"
 
-@interface SVPullToRefreshLoadingView ()
+@interface SVInfiniteScrollingLoadingView ()
 @property (strong, nonatomic) UIImageView *imageView;
 @property (strong, nonatomic) UIImage *currentImage;
 @end
 
-@implementation SVPullToRefreshLoadingView
+@implementation SVInfiniteScrollingLoadingView
 
 - (instancetype)init {
   if (self = [super init]) {
@@ -42,21 +42,16 @@
   [self addSubview:imageView];
 }
 
-- (void)setDragingAnimationImages:(NSArray<UIImage *> *)dragingAnimationImages {
-  _dragingAnimationImages = [dragingAnimationImages copy];
-  if (dragingAnimationImages.count) {
-    UIImage *image = dragingAnimationImages.firstObject;
+- (void)setLoadingAnimationImages:(NSArray<UIImage *> *)loadingAnimationImages {
+  _loadingAnimationImages = [loadingAnimationImages copy];
+  if (loadingAnimationImages.count) {
+    UIImage *image = loadingAnimationImages.firstObject;
     CGRect frame = CGRectMake(0, 0, image.size.width, image.size.height);
     self.imageView.frame = frame;
     self.imageView.image = image;
     self.frame = frame;
     self.currentImage = image;
   }
-}
-
-- (void)setLoadingAnimationImages:(NSArray<UIImage *> *)loadingAnimationImages {
-  _loadingAnimationImages = loadingAnimationImages;
-  self.imageView.animationImages = _loadingAnimationImages;
 }
 
 - (void)startLoading {
@@ -69,14 +64,14 @@
   }
   
   NSTimeInterval duration = 1.0;
-//  self.imageView.animationImages = self.loadingAnimationImages;
+  self.imageView.animationImages = self.loadingAnimationImages;
   self.imageView.animationDuration = duration;
   self.imageView.animationRepeatCount = NSIntegerMax;
   [self.imageView startAnimating];
 }
 
 - (void)animationDone {
-  self.currentImage = self.dragingAnimationImages.firstObject;
+  self.currentImage = self.loadingAnimationImages.firstObject;
   self.imageView.image = self.currentImage;
 }
 
@@ -86,31 +81,6 @@
     [self.imageView stopAnimating];
     [self animationDone];
   }
-}
-
-- (void)updateTriggerWithPercent:(CGFloat)percent state:(SVPullToRefreshState)state {
-  NSParameterAssert(percent <= 1.0);
-  [self stopLoading];
-  
-  if (state == SVPullToRefreshStateStopped) {
-    self.imageView.image = self.dragingAnimationImages.lastObject;
-    return;
-  }
-  if (state == SVPullToRefreshStateAll || state == SVPullToRefreshStateLoading) {
-    return;
-  }
-  CGFloat percentUnit = 1.0 / self.dragingAnimationImages.count;
-  NSInteger index = floor((percent / percentUnit));
-  if (index >= self.dragingAnimationImages.count - 1) {
-    index = self.dragingAnimationImages.count - 1;
-  }
-  UIImage *image= self.dragingAnimationImages[index];
-  if (image != self.currentImage) {
-    NSLog(@"Set new Image");
-    self.imageView.image = image;
-    self.currentImage = image;
-  }
-  
 }
 
 @end

@@ -23,6 +23,7 @@
 		22FDEC9D16390CC800DB53A8 /* UIScrollView+SVInfiniteScrolling.m in Sources */ = {isa = PBXBuildFile; fileRef = 2288146016047C06005C6461 /* UIScrollView+SVInfiniteScrolling.m */; };
 		EC26091F1D8A709F0084C097 /* SVPullToRefreshLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = EC26091E1D8A709F0084C097 /* SVPullToRefreshLoadingView.m */; };
 		EC2609211D8A73F70084C097 /* Image.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC2609201D8A73F70084C097 /* Image.xcassets */; };
+		EC2609481D8A81410084C097 /* SVInfiniteScrollingLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = EC2609471D8A81410084C097 /* SVInfiniteScrollingLoadingView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,9 @@
 		EC26091D1D8A709F0084C097 /* SVPullToRefreshLoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPullToRefreshLoadingView.h; sourceTree = "<group>"; };
 		EC26091E1D8A709F0084C097 /* SVPullToRefreshLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVPullToRefreshLoadingView.m; sourceTree = "<group>"; };
 		EC2609201D8A73F70084C097 /* Image.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Image.xcassets; sourceTree = "<group>"; };
+		EC2609461D8A81410084C097 /* SVInfiniteScrollingLoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVInfiniteScrollingLoadingView.h; sourceTree = "<group>"; };
+		EC2609471D8A81410084C097 /* SVInfiniteScrollingLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVInfiniteScrollingLoadingView.m; sourceTree = "<group>"; };
+		EC2609491D8A84900084C097 /* SVLoadingViewProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SVLoadingViewProtocol.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,8 +134,11 @@
 			isa = PBXGroup;
 			children = (
 				226989041639F55E00FCBB3B /* SVPullToRefresh.h */,
+				EC2609491D8A84900084C097 /* SVLoadingViewProtocol.h */,
 				EC26091D1D8A709F0084C097 /* SVPullToRefreshLoadingView.h */,
 				EC26091E1D8A709F0084C097 /* SVPullToRefreshLoadingView.m */,
+				EC2609461D8A81410084C097 /* SVInfiniteScrollingLoadingView.h */,
+				EC2609471D8A81410084C097 /* SVInfiniteScrollingLoadingView.m */,
 				22E0D93A1545EE7600BB6BB5 /* UIScrollView+SVPullToRefresh.h */,
 				22E0D93B1545EE7600BB6BB5 /* UIScrollView+SVPullToRefresh.m */,
 				2288145F16047C06005C6461 /* UIScrollView+SVInfiniteScrolling.h */,
@@ -210,6 +217,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC26091F1D8A709F0084C097 /* SVPullToRefreshLoadingView.m in Sources */,
+				EC2609481D8A81410084C097 /* SVInfiniteScrollingLoadingView.m in Sources */,
 				22E0D9251545EE5B00BB6BB5 /* main.m in Sources */,
 				22E0D9291545EE5B00BB6BB5 /* SVAppDelegate.m in Sources */,
 				22E0D92C1545EE5B00BB6BB5 /* SVViewController.m in Sources */,

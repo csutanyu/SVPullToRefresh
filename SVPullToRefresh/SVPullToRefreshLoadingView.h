@@ -1,5 +1,5 @@
 //
-//  SVLoadingView.h
+//  SVPullToRefreshLoadingView.h
 //  SVPullToRefreshDemo
 //
 //  Created by arvin.tan on 9/15/16.
@@ -8,12 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "UIScrollView+SVPullToRefresh.h"
+#import "SVLoadingViewProtocol.h"
 
-@interface SVLoadingView : UIView
+@interface SVPullToRefreshLoadingView : UIView <SVLoadingViewProtocol>
 @property (copy, nonatomic) NSArray<UIImage *> *dragingAnimationImages;
 @property (copy, nonatomic) NSArray<UIImage *> *loadingAnimationImages;
-
-- (instancetype)initWithdragingAnimationImages:(NSArray<UIImage *> *)dragingAnimationImages;
 
 - (void)startLoading;
 - (void)stopLoading;

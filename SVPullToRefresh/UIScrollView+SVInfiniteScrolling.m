@@ -9,7 +9,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "UIScrollView+SVInfiniteScrolling.h"
-
+#import "SVLoadingViewProtocol.h"
 
 static CGFloat const SVInfiniteScrollingViewHeight = 60;
 
@@ -280,6 +280,22 @@ UIEdgeInsets scrollViewOriginalContentInsets;
         CGRect viewBounds = [customView bounds];
         CGPoint origin = CGPointMake(roundf((self.bounds.size.width-viewBounds.size.width)/2), roundf((self.bounds.size.height-viewBounds.size.height)/2));
         [customView setFrame:CGRectMake(origin.x, origin.y, viewBounds.size.width, viewBounds.size.height)];
+      if ([customView conformsToProtocol:@protocol(SVLoadingViewProtocol)]) {
+        id<SVLoadingViewProtocol> loadingView = (id<SVLoadingViewProtocol>)customView;
+        switch (newState) {
+          case SVInfiniteScrollingStateStopped:
+            [loadingView startLoading];
+            break;
+            
+          case SVInfiniteScrollingStateTriggered:
+            [loadingView startLoading];
+            break;
+            
+          case SVInfiniteScrollingStateLoading:
+            [loadingView startLoading];
+            break;
+        }
+      }
     }
     else {
         CGRect viewBounds = [self.activityIndicatorView bounds];

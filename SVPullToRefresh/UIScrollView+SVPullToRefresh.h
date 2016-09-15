@@ -10,7 +10,7 @@
 #import <UIKit/UIKit.h>
 #import <AvailabilityMacros.h>
 
-
+@protocol SVLoadingViewProtocol;
 @class SVPullToRefreshView;
 
 @interface UIScrollView (SVPullToRefresh)

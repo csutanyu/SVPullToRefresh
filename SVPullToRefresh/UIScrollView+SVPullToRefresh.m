@@ -9,7 +9,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "UIScrollView+SVPullToRefresh.h"
-#import "SVPullToRefreshLoadingView.h"
+#import "SVLoadingViewProtocol.h"
 
 //fequal() and fequalzro() from http://stackoverflow.com/a/1614761/184130
 #define fequal(a,b) (fabs((a) - (b)) < FLT_EPSILON)
@@ -415,10 +415,16 @@ static char UIScrollViewPullToRefreshView;
             self.state = SVPullToRefreshStateStopped;
         
         if(self.scrollView.isDragging && contentOffset.y >= scrollOffsetThreshold && contentOffset.y < 0) {
-            //        self.state = SVPullToRefreshStateStopped;
             CGFloat percent = contentOffset.y/scrollOffsetThreshold;
-            NSLog(@"percent: %.4f", percent);
-            [(SVLoadingView *)(self.viewForState[SVPullToRefreshStateTriggered]) updateTriggerWithPercent:percent state:SVPullToRefreshStateTriggered];
+            id customView = [self.viewForState objectAtIndex:SVPullToRefreshStateTriggered];
+            BOOL hasCustomView = [customView isKindOfClass:[UIView class]];
+
+            if (hasCustomView && [customView conformsToProtocol:@protocol(SVLoadingViewProtocol)]) {
+                id<SVLoadingViewProtocol> loadingView = (id<SVLoadingViewProtocol>)customView;
+                if ([loadingView respondsToSelector:@selector(updateTriggerWithPercent:state:)]) {
+                    [loadingView updateTriggerWithPercent:percent state:SVPullToRefreshStateTriggered];
+                }
+            }
         }
         
         
@@ -659,8 +665,8 @@ static char UIScrollViewPullToRefreshView;
         case SVPullToRefreshStateAll:
         case SVPullToRefreshStateStopped:
             [self resetScrollViewContentInset];
-            if (customerView) {
-                [(SVLoadingView *)customerView stopLoading];
+            if (customerView && [customerView conformsToProtocol:@protocol(SVLoadingViewProtocol)]) {
+                [(id<SVLoadingViewProtocol>)customerView stopLoading];
             }
             break;
             
@@ -670,10 +676,12 @@ static char UIScrollViewPullToRefreshView;
         case SVPullToRefreshStateLoading:
             [self setScrollViewContentInsetForLoading];
             
-            if(previousState == SVPullToRefreshStateTriggered && pullToRefreshActionHandler) {
-                pullToRefreshActionHandler();
-                if (customerView) {
-                    [(SVLoadingView *)customerView startLoading];
+            if(previousState == SVPullToRefreshStateTriggered) {
+                if (pullToRefreshActionHandler) {
+                    pullToRefreshActionHandler();
+                }
+                if (customerView && [customerView conformsToProtocol:@protocol(SVLoadingViewProtocol)]) {
+                    [(id<SVLoadingViewProtocol>)customerView startLoading];
                 }
             }
             
