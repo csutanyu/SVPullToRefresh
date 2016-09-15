@@ -10,15 +10,13 @@
 #import "UIScrollView+SVPullToRefresh.h"
 
 @interface SVLoadingView : UIView
+@property (copy, nonatomic) NSArray<UIImage *> *dragingAnimationImages;
+@property (copy, nonatomic) NSArray<UIImage *> *loadingAnimationImages;
 
-@property (copy, nonatomic) NSArray<UIImage *> *images;
-
-- (instancetype)initWithImages:(NSArray<UIImage *> *)images;
+- (instancetype)initWithdragingAnimationImages:(NSArray<UIImage *> *)dragingAnimationImages;
 
 - (void)startLoading;
-
 - (void)stopLoading;
 
 - (void)updateTriggerWithPercent:(CGFloat)percent state:(SVPullToRefreshState)state;
-
 @end

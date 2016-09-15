@@ -28,7 +28,7 @@
     
     // setup pull-to-refresh
     
-    
+//    self.tableView.backgroundView = [UIColor redColor];
     [self.tableView addPullToRefreshWithActionHandler:^{
         [weakSelf insertRowAtTop];
     }];
@@ -41,10 +41,17 @@
         [array addObject:[UIImage imageNamed:imageName]];
     }
     SVLoadingView *loadingView = [[SVLoadingView alloc] initWithFrame:CGRectZero];
-    loadingView.images = array;
+    loadingView.dragingAnimationImages = array;
+    [array removeAllObjects];
+    imagePrefx = @"loading_white_";
+    
+    for (NSInteger index = 1; index <= imageCount; ++index) {
+        NSString *imageName = [NSString stringWithFormat:@"%@%02ld", imagePrefx, (long)index];
+        [array addObject:[UIImage imageNamed:imageName]];
+    }
+    loadingView.loadingAnimationImages = array;
     [self.tableView.pullToRefreshView setCustomView:loadingView forState:SVPullToRefreshStateAll];
-    
-    
+    self.tableView.pullToRefreshView.backgroundColor = [UIColor redColor]; // Just for text clear
     [self.tableView addInfiniteScrollingWithActionHandler:^{
         [weakSelf insertRowAtBottom];
     }];

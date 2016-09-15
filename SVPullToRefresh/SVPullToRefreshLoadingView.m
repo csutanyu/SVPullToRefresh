@@ -36,10 +36,10 @@
   return self;
 }
 
-- (instancetype)initWithImages:(NSArray *)images {
+- (instancetype)initWithdragingAnimationImages:(NSArray *)dragingAnimationImages {
   if (self = [super initWithFrame:CGRectZero]) {
     [self commonInit];
-    self.images = images;
+    self.dragingAnimationImages = dragingAnimationImages;
   }
   return self;
 }
@@ -50,10 +50,10 @@
   [self addSubview:imageView];
 }
 
-- (void)setImages:(NSArray<UIImage *> *)images {
-  _images = [images copy];
-  if (images.count) {
-    UIImage *image = images.firstObject;
+- (void)setDragingAnimationImages:(NSArray<UIImage *> *)dragingAnimationImages {
+  _dragingAnimationImages = [dragingAnimationImages copy];
+  if (dragingAnimationImages.count) {
+    UIImage *image = dragingAnimationImages.firstObject;
     CGRect frame = CGRectMake(0, 0, image.size.width, image.size.height);
     self.imageView.frame = frame;
     self.imageView.image = image;
@@ -64,7 +64,7 @@
 
 - (void)startLoading {
   NSLog(@"%s", __PRETTY_FUNCTION__);
-  if (self.images.count == 0) {
+  if (self.loadingAnimationImages.count == 0) {
     return;
   }
   if (self.imageView.isAnimating) {
@@ -72,15 +72,14 @@
   }
   
   NSTimeInterval duration = 1.0;
-  self.imageView.animationImages = self.images;
+  self.imageView.animationImages = self.loadingAnimationImages;
   self.imageView.animationDuration = duration;
   self.imageView.animationRepeatCount = NSIntegerMax;
   [self.imageView startAnimating];
-//  [self performSelector:@selector(animationDone) withObject:nil afterDelay:duration];
 }
 
 - (void)animationDone {
-  self.currentImage = self.images.firstObject;
+  self.currentImage = self.dragingAnimationImages.firstObject;
   self.imageView.image = self.currentImage;
 }
 
@@ -93,10 +92,11 @@
 }
 
 - (void)updateTriggerWithPercent:(CGFloat)percent state:(SVPullToRefreshState)state {
+  NSParameterAssert(percent <= 1.0);
   [self stopLoading];
   
   if (state == SVPullToRefreshStateStopped) {
-    self.imageView.image = self.images.lastObject;
+    self.imageView.image = self.dragingAnimationImages.lastObject;
     return;
   }
   if (state == SVPullToRefreshStateAll || state == SVPullToRefreshStateLoading) {
@@ -115,13 +115,12 @@
 //  self.frontCircleLayer.mask = self.pieLayer;
 //  
 //  [CATransaction commit];
-  NSParameterAssert(percent <= 1.0);
-  CGFloat percentUnit = 1.0 / self.images.count;
+  CGFloat percentUnit = 1.0 / self.dragingAnimationImages.count;
   NSInteger index = floor((percent / percentUnit));
-  if (index >= self.images.count - 1) {
-    index = self.images.count - 1;
+  if (index >= self.dragingAnimationImages.count - 1) {
+    index = self.dragingAnimationImages.count - 1;
   }
-  UIImage *image= self.images[index];
+  UIImage *image= self.dragingAnimationImages[index];
   if (image != self.currentImage) {
     NSLog(@"Set new Image");
     self.imageView.image = image;
