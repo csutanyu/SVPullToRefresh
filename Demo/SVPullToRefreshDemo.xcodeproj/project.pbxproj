@@ -21,6 +21,8 @@
 		22E0D94B1545F63300BB6BB5 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 22E0D94A1545F63300BB6BB5 /* README.md */; };
 		22FDEC971639082E00DB53A8 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 22FDEC961639082E00DB53A8 /* Default-568h@2x.png */; };
 		22FDEC9D16390CC800DB53A8 /* UIScrollView+SVInfiniteScrolling.m in Sources */ = {isa = PBXBuildFile; fileRef = 2288146016047C06005C6461 /* UIScrollView+SVInfiniteScrolling.m */; };
+		EC26091F1D8A709F0084C097 /* SVPullToRefreshLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = EC26091E1D8A709F0084C097 /* SVPullToRefreshLoadingView.m */; };
+		EC2609211D8A73F70084C097 /* Image.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC2609201D8A73F70084C097 /* Image.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,13 +41,16 @@
 		22E0D9271545EE5B00BB6BB5 /* SVAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SVAppDelegate.h; sourceTree = "<group>"; };
 		22E0D9281545EE5B00BB6BB5 /* SVAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SVAppDelegate.m; sourceTree = "<group>"; };
 		22E0D92A1545EE5B00BB6BB5 /* SVViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SVViewController.h; sourceTree = "<group>"; };
-		22E0D92B1545EE5B00BB6BB5 /* SVViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SVViewController.m; sourceTree = "<group>"; };
+		22E0D92B1545EE5B00BB6BB5 /* SVViewController.m */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = SVViewController.m; sourceTree = "<group>"; tabWidth = 4; };
 		22E0D92E1545EE5B00BB6BB5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SVViewController.xib; sourceTree = "<group>"; };
 		22E0D93A1545EE7600BB6BB5 /* UIScrollView+SVPullToRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+SVPullToRefresh.h"; sourceTree = "<group>"; };
-		22E0D93B1545EE7600BB6BB5 /* UIScrollView+SVPullToRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+SVPullToRefresh.m"; sourceTree = "<group>"; };
+		22E0D93B1545EE7600BB6BB5 /* UIScrollView+SVPullToRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+SVPullToRefresh.m"; sourceTree = "<group>"; tabWidth = 4; };
 		22E0D9401545EE9000BB6BB5 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		22E0D94A1545F63300BB6BB5 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		22FDEC961639082E00DB53A8 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
+		EC26091D1D8A709F0084C097 /* SVPullToRefreshLoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPullToRefreshLoadingView.h; sourceTree = "<group>"; };
+		EC26091E1D8A709F0084C097 /* SVPullToRefreshLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVPullToRefreshLoadingView.m; sourceTree = "<group>"; };
+		EC2609201D8A73F70084C097 /* Image.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Image.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +119,7 @@
 				22FDEC961639082E00DB53A8 /* Default-568h@2x.png */,
 				22E0D9201545EE5B00BB6BB5 /* SVPullToRefreshDemo-Info.plist */,
 				22E0D9211545EE5B00BB6BB5 /* InfoPlist.strings */,
+				EC2609201D8A73F70084C097 /* Image.xcassets */,
 				22E0D9241545EE5B00BB6BB5 /* main.m */,
 				22E0D9261545EE5B00BB6BB5 /* SVPullToRefreshDemo-Prefix.pch */,
 			);
@@ -124,6 +130,8 @@
 			isa = PBXGroup;
 			children = (
 				226989041639F55E00FCBB3B /* SVPullToRefresh.h */,
+				EC26091D1D8A709F0084C097 /* SVPullToRefreshLoadingView.h */,
+				EC26091E1D8A709F0084C097 /* SVPullToRefreshLoadingView.m */,
 				22E0D93A1545EE7600BB6BB5 /* UIScrollView+SVPullToRefresh.h */,
 				22E0D93B1545EE7600BB6BB5 /* UIScrollView+SVPullToRefresh.m */,
 				2288145F16047C06005C6461 /* UIScrollView+SVInfiniteScrolling.h */,
@@ -186,6 +194,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				22E0D9231545EE5B00BB6BB5 /* InfoPlist.strings in Resources */,
+				EC2609211D8A73F70084C097 /* Image.xcassets in Resources */,
 				22E0D92F1545EE5B00BB6BB5 /* SVViewController.xib in Resources */,
 				22E0D94B1545F63300BB6BB5 /* README.md in Resources */,
 				22FDEC971639082E00DB53A8 /* Default-568h@2x.png in Resources */,
@@ -200,6 +209,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC26091F1D8A709F0084C097 /* SVPullToRefreshLoadingView.m in Sources */,
 				22E0D9251545EE5B00BB6BB5 /* main.m in Sources */,
 				22E0D9291545EE5B00BB6BB5 /* SVAppDelegate.m in Sources */,
 				22E0D92C1545EE5B00BB6BB5 /* SVViewController.m in Sources */,

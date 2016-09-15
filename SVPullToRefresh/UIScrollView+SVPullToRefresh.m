@@ -9,6 +9,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "UIScrollView+SVPullToRefresh.h"
+#import "SVPullToRefreshLoadingView.h"
 
 //fequal() and fequalzro() from http://stackoverflow.com/a/1614761/184130
 #define fequal(a,b) (fabs((a) - (b)) < FLT_EPSILON)
@@ -412,6 +413,15 @@ static char UIScrollViewPullToRefreshView;
             self.state = SVPullToRefreshStateTriggered;
         else if(contentOffset.y <= scrollOffsetThreshold && self.state != SVPullToRefreshStateStopped && self.position == SVPullToRefreshPositionBottom)
             self.state = SVPullToRefreshStateStopped;
+        
+        if(self.scrollView.isDragging && contentOffset.y >= scrollOffsetThreshold && contentOffset.y < 0) {
+            //        self.state = SVPullToRefreshStateStopped;
+            CGFloat percent = contentOffset.y/scrollOffsetThreshold;
+            NSLog(@"percent: %.4f", percent);
+            [(SVLoadingView *)(self.viewForState[SVPullToRefreshStateTriggered]) updateTriggerWithPercent:percent state:SVPullToRefreshStateTriggered];
+        }
+        
+        
     } else {
         CGFloat offset;
         UIEdgeInsets contentInset;
@@ -640,10 +650,18 @@ static char UIScrollViewPullToRefreshView;
     [self setNeedsLayout];
     [self layoutIfNeeded];
     
+    id temp = self.viewForState[newState];
+    UIView *customerView;
+    if ([temp isKindOfClass:[UIView class]]) {
+        customerView = (UIView *)temp;
+    }
     switch (newState) {
         case SVPullToRefreshStateAll:
         case SVPullToRefreshStateStopped:
             [self resetScrollViewContentInset];
+            if (customerView) {
+                [(SVLoadingView *)customerView stopLoading];
+            }
             break;
             
         case SVPullToRefreshStateTriggered:
@@ -652,8 +670,12 @@ static char UIScrollViewPullToRefreshView;
         case SVPullToRefreshStateLoading:
             [self setScrollViewContentInsetForLoading];
             
-            if(previousState == SVPullToRefreshStateTriggered && pullToRefreshActionHandler)
+            if(previousState == SVPullToRefreshStateTriggered && pullToRefreshActionHandler) {
                 pullToRefreshActionHandler();
+                if (customerView) {
+                    [(SVLoadingView *)customerView startLoading];
+                }
+            }
             
             break;
     }

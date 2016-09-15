@@ -8,6 +8,7 @@
 
 #import "SVViewController.h"
 #import "SVPullToRefresh.h"
+#import "SVPullToRefreshLoadingView.h"
 
 @interface SVViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -21,21 +22,36 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupDataSource];
-    
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.automaticallyAdjustsScrollViewInsets = NO;
     __weak SVViewController *weakSelf = self;
     
     // setup pull-to-refresh
+    
+    
     [self.tableView addPullToRefreshWithActionHandler:^{
         [weakSelf insertRowAtTop];
     }];
-        
-    // setup infinite scrolling
+    
+    NSString *imagePrefx = @"loading_black_";
+    NSInteger imageCount = 8;
+    NSMutableArray *array = [[NSMutableArray alloc] initWithCapacity:imageCount];
+    for (NSInteger index = 1; index <= imageCount; ++index) {
+        NSString *imageName = [NSString stringWithFormat:@"%@%02ld", imagePrefx, (long)index];
+        [array addObject:[UIImage imageNamed:imageName]];
+    }
+    SVLoadingView *loadingView = [[SVLoadingView alloc] initWithFrame:CGRectZero];
+    loadingView.images = array;
+    [self.tableView.pullToRefreshView setCustomView:loadingView forState:SVPullToRefreshStateAll];
+    
+    
     [self.tableView addInfiniteScrollingWithActionHandler:^{
         [weakSelf insertRowAtBottom];
     }];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     [tableView triggerPullToRefresh];
 }
 
