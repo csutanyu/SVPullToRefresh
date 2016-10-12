@@ -20,6 +20,8 @@
 @property (nonatomic, strong, readonly) SVInfiniteScrollingView *infiniteScrollingView;
 @property (nonatomic, assign) BOOL showsInfiniteScrolling;
 
+@property (nonatomic) NSTimeInterval minimumAnimatingDuration; // Default 0.0
+
 @end
 
 
@@ -37,6 +39,8 @@ typedef NSUInteger SVInfiniteScrollingState;
 @property (nonatomic, readwrite) UIActivityIndicatorViewStyle activityIndicatorViewStyle;
 @property (nonatomic, readonly) SVInfiniteScrollingState state;
 @property (nonatomic, readwrite) BOOL enabled;
+
+@property (nonatomic) NSTimeInterval minimumAnimatingDuration; // Default 0.0
 
 - (void)setCustomView:(UIView *)view forState:(SVInfiniteScrollingState)state;
 

@@ -33,6 +33,8 @@ static CGFloat const SVInfiniteScrollingViewHeight = 60;
 @property (nonatomic, assign) BOOL wasTriggeredByUser;
 @property (nonatomic, assign) BOOL isObserving;
 
+@property (nonatomic) NSTimeInterval startInfiniteAnimatingTime;
+
 - (void)resetScrollViewContentInset;
 - (void)setScrollViewContentInsetForInfiniteScrolling;
 - (void)setScrollViewContentInset:(UIEdgeInsets)insets;
@@ -108,6 +110,14 @@ UIEdgeInsets scrollViewOriginalContentInsets;
 
 - (BOOL)showsInfiniteScrolling {
     return !self.infiniteScrollingView.hidden;
+}
+
+- (NSTimeInterval)minimumAnimatingDuration {
+  return self.infiniteScrollingView.minimumAnimatingDuration;
+}
+
+- (void)setMinimumAnimatingDuration:(NSTimeInterval)minimumAnimatingDuration {
+  self.infiniteScrollingView.minimumAnimatingDuration = minimumAnimatingDuration;
 }
 
 @end
@@ -256,6 +266,16 @@ UIEdgeInsets scrollViewOriginalContentInsets;
 }
 
 - (void)stopAnimating {
+    CFTimeInterval diff = CFAbsoluteTimeGetCurrent() - self.startInfiniteAnimatingTime;
+    if (diff < self.minimumAnimatingDuration) {
+      
+      
+      dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(diff * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self stopAnimating];
+      });
+      return;
+    }
+
     self.state = SVInfiniteScrollingStateStopped;
 }
 
@@ -316,6 +336,10 @@ UIEdgeInsets scrollViewOriginalContentInsets;
                 break;
         }
     }
+  
+  if (newState == SVInfiniteScrollingStateLoading) {
+    self.startInfiniteAnimatingTime = CFAbsoluteTimeGetCurrent();
+  }
     
     if(previousState == SVInfiniteScrollingStateTriggered && newState == SVInfiniteScrollingStateLoading && self.infiniteScrollingHandler && self.enabled)
         self.infiniteScrollingHandler();

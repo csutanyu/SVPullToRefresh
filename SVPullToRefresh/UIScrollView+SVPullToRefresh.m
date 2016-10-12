@@ -46,7 +46,9 @@ static CGFloat const SVPullToRefreshViewHeight = 60;
 @property (nonatomic, assign) BOOL wasTriggeredByUser;
 @property (nonatomic, assign) BOOL showsPullToRefresh;
 @property (nonatomic, assign) BOOL showsDateLabel;
-@property(nonatomic, assign) BOOL isObserving;
+@property (nonatomic, assign) BOOL isObserving;
+
+@property (nonatomic) NSTimeInterval startRefreshAnimatingTime;
 
 - (void)resetScrollViewContentInset;
 - (void)setScrollViewContentInsetForLoading;
@@ -151,6 +153,14 @@ static char UIScrollViewPullToRefreshView;
 
 - (BOOL)showsPullToRefresh {
     return !self.pullToRefreshView.hidden;
+}
+
+- (NSTimeInterval)minimumAnimatingDuration {
+  return self.pullToRefreshView.minimumAnimatingDuration;
+}
+
+- (void)setMinimumAnimatingDuration:(NSTimeInterval)minimumAnimatingDuration {
+  self.pullToRefreshView.minimumAnimatingDuration = minimumAnimatingDuration;
 }
 
 @end
@@ -631,6 +641,15 @@ static char UIScrollViewPullToRefreshView;
 }
 
 - (void)stopAnimating {
+    CFTimeInterval diff = CFAbsoluteTimeGetCurrent() - self.startRefreshAnimatingTime;
+    if (diff < self.minimumAnimatingDuration) {
+        
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(diff * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self stopAnimating];
+        });
+        return;
+    }
     self.state = SVPullToRefreshStateStopped;
     
     switch (self.position) {
@@ -674,6 +693,7 @@ static char UIScrollViewPullToRefreshView;
             break;
             
         case SVPullToRefreshStateLoading:
+            self.startRefreshAnimatingTime = CFAbsoluteTimeGetCurrent();
             [self setScrollViewContentInsetForLoading];
             
             if(previousState == SVPullToRefreshStateTriggered) {
