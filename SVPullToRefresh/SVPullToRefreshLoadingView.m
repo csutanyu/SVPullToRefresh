@@ -60,7 +60,7 @@
 }
 
 - (void)startLoading {
-  NSLog(@"%s", __PRETTY_FUNCTION__);
+//  NSLog(@"%s", __PRETTY_FUNCTION__);
   if (self.loadingAnimationImages.count == 0) {
     return;
   }
@@ -81,7 +81,7 @@
 }
 
 - (void)stopLoading {
-  NSLog(@"is Animating: %d, %s", self.imageView.isAnimating, __PRETTY_FUNCTION__);
+//  NSLog(@"is Animating: %d, %s", self.imageView.isAnimating, __PRETTY_FUNCTION__);
   if (self.imageView.isAnimating) {
     [self.imageView stopAnimating];
     [self animationDone];
@@ -106,7 +106,7 @@
   }
   UIImage *image= self.dragingAnimationImages[index];
   if (image != self.currentImage) {
-    NSLog(@"Set new Image");
+//    NSLog(@"Set new Image");
     self.imageView.image = image;
     self.currentImage = image;
   }

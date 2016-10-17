@@ -55,7 +55,7 @@
 }
 
 - (void)startLoading {
-  NSLog(@"%s", __PRETTY_FUNCTION__);
+//  NSLog(@"%s", __PRETTY_FUNCTION__);
   if (self.loadingAnimationImages.count == 0) {
     return;
   }
@@ -76,7 +76,7 @@
 }
 
 - (void)stopLoading {
-  NSLog(@"is Animating: %d, %s", self.imageView.isAnimating, __PRETTY_FUNCTION__);
+//  NSLog(@"is Animating: %d, %s", self.imageView.isAnimating, __PRETTY_FUNCTION__);
   if (self.imageView.isAnimating) {
     [self.imageView stopAnimating];
     [self animationDone];
