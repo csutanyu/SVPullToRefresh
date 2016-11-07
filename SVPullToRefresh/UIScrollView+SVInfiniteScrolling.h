@@ -19,7 +19,6 @@
 
 @property (nonatomic, strong, readonly) SVInfiniteScrollingView *infiniteScrollingView;
 @property (nonatomic, assign) BOOL showsInfiniteScrolling;
-
 @end
 
 
@@ -42,5 +41,6 @@ typedef NSUInteger SVInfiniteScrollingState;
 
 - (void)startAnimating;
 - (void)stopAnimating;
+- (void)showMessage:(NSString *)mesage;
 
 @end

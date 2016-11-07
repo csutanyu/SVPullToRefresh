@@ -11,8 +11,9 @@
 
 @interface SVInfiniteScrollingLoadingView : UIView <SVLoadingViewProtocol>
 @property (copy, nonatomic) NSArray<UIImage *> *loadingAnimationImages;
+@property (copy, nonatomic) NSString *textTips;
+@property (strong, nonatomic) UIColor *tipsTextColor;
 
 - (void)startLoading;
 - (void)stopLoading;
-
 @end

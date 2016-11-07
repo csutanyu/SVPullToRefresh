@@ -11,6 +11,7 @@
 @interface SVInfiniteScrollingLoadingView ()
 @property (strong, nonatomic) UIImageView *imageView;
 @property (strong, nonatomic) UIImage *currentImage;
+@property (strong, nonatomic) UILabel *textLabel;
 @end
 
 @implementation SVInfiniteScrollingLoadingView
@@ -40,16 +41,22 @@
   UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
   self.imageView = imageView;
   [self addSubview:imageView];
+  UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+  label.textAlignment = NSTextAlignmentCenter;
+  label.textColor = [UIColor grayColor];
+  self.textLabel = label;
+  [self addSubview:label];
+  self.textLabel.frame = self.frame;
+  self.textLabel.hidden = YES;
 }
 
 - (void)setLoadingAnimationImages:(NSArray<UIImage *> *)loadingAnimationImages {
   _loadingAnimationImages = [loadingAnimationImages copy];
   if (loadingAnimationImages.count) {
     UIImage *image = loadingAnimationImages.firstObject;
-    CGRect frame = CGRectMake(0, 0, image.size.width, image.size.height);
+    CGPoint origin = CGPointMake(roundf((self.bounds.size.width-image.size.width)/2), roundf((self.bounds.size.height-image.size.height)/2));
+    CGRect frame = CGRectMake(origin.x, origin.y, image.size.width, image.size.height);
     self.imageView.frame = frame;
-    self.imageView.image = image;
-    self.frame = frame;
     self.currentImage = image;
   }
 }
@@ -62,7 +69,7 @@
   if (self.imageView.isAnimating) {
     return;
   }
-  
+  self.textLabel.hidden = YES;
   NSTimeInterval duration = 1.0;
   self.imageView.animationImages = self.loadingAnimationImages;
   self.imageView.animationDuration = duration;
@@ -80,7 +87,26 @@
   if (self.imageView.isAnimating) {
     [self.imageView stopAnimating];
     [self animationDone];
+    self.imageView.image = nil;
   }
+}
+
+- (NSString *)textTips {
+  return self.textLabel.text;
+}
+
+- (void)setTextTips:(NSString *)textTips {
+  [self stopLoading];
+  self.textLabel.hidden = NO;
+  self.textLabel.text = textTips;
+}
+
+- (UIColor *)tipsTextColor {
+  return self.textLabel.textColor;
+}
+
+- (void)setTipsTextColor:(UIColor *)tipsTextColor {
+  self.textLabel.textColor = tipsTextColor;
 }
 
 @end

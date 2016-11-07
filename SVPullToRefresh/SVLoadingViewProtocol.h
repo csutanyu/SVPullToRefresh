@@ -16,4 +16,5 @@
 
 @optional
 - (void)updateTriggerWithPercent:(CGFloat)percent state:(SVPullToRefreshState)state;
+- (void)setTextTips:(NSString *)tips;
 @end

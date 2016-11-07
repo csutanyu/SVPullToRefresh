@@ -106,6 +106,11 @@ UIEdgeInsets scrollViewOriginalContentInsets;
     }
 }
 
+- (void)test {
+//  [self.infiniteScrollingView setNeedsLayout];
+//  self.infiniteScrollingView.frame = CGRectMake(0, self.contentSize.height, self.infiniteScrollingView.bounds.size.width, SVInfiniteScrollingViewHeight);
+}
+
 - (BOOL)showsInfiniteScrolling {
     return !self.infiniteScrollingView.hidden;
 }
@@ -256,11 +261,22 @@ UIEdgeInsets scrollViewOriginalContentInsets;
 }
 
 - (void)stopAnimating {
-    self.state = SVInfiniteScrollingStateStopped;
+    self.state = SVInfiniteScrollingStateStopped;  
+}
+
+- (void)showMessage:(NSString *)mesage {
+  id customView = [self.viewForState objectAtIndex:SVInfiniteScrollingStateStopped];
+  BOOL hasCustomView = [customView isKindOfClass:[UIView class]];
+  if ([customView conformsToProtocol:@protocol(SVLoadingViewProtocol)]) {
+    id<SVLoadingViewProtocol> loadingView = (id<SVLoadingViewProtocol>)customView;
+    if ([loadingView respondsToSelector:@selector(setTextTips:)]) {
+      [loadingView setTextTips:mesage];
+    }
+  }
 }
 
 - (void)setState:(SVInfiniteScrollingState)newState {
-    
+  
     if(_state == newState)
         return;
     
@@ -284,7 +300,7 @@ UIEdgeInsets scrollViewOriginalContentInsets;
         id<SVLoadingViewProtocol> loadingView = (id<SVLoadingViewProtocol>)customView;
         switch (newState) {
           case SVInfiniteScrollingStateStopped:
-            [loadingView startLoading];
+            [loadingView stopLoading];
             break;
             
           case SVInfiniteScrollingStateTriggered:
