@@ -75,16 +75,11 @@
   [self.imageView startAnimating];
 }
 
-- (void)animationDone {
-  self.currentImage = self.dragingAnimationImages.firstObject;
-  self.imageView.image = self.currentImage;
-}
-
 - (void)stopLoading {
 //  NSLog(@"is Animating: %d, %s", self.imageView.isAnimating, __PRETTY_FUNCTION__);
   if (self.imageView.isAnimating) {
     [self.imageView stopAnimating];
-    [self animationDone];
+    self.imageView.image = nil;
   }
 }
 
