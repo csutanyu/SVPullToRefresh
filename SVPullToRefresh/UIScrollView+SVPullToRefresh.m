@@ -413,21 +413,23 @@ static char UIScrollViewPullToRefreshView;
             self.state = SVPullToRefreshStateTriggered;
         else if(contentOffset.y <= scrollOffsetThreshold && self.state != SVPullToRefreshStateStopped && self.position == SVPullToRefreshPositionBottom)
             self.state = SVPullToRefreshStateStopped;
-        
-        if(self.scrollView.isDragging && contentOffset.y >= scrollOffsetThreshold && contentOffset.y < 0) {
-            CGFloat percent = contentOffset.y/scrollOffsetThreshold;
-            id customView = [self.viewForState objectAtIndex:SVPullToRefreshStateTriggered];
-            BOOL hasCustomView = [customView isKindOfClass:[UIView class]];
-
-            if (hasCustomView && [customView conformsToProtocol:@protocol(SVLoadingViewProtocol)]) {
-                id<SVLoadingViewProtocol> loadingView = (id<SVLoadingViewProtocol>)customView;
-                if ([loadingView respondsToSelector:@selector(updateTriggerWithPercent:state:)]) {
-                    [loadingView updateTriggerWithPercent:percent state:SVPullToRefreshStateTriggered];
-                }
+      
+        if (self.position == SVPullToRefreshPositionTop && self.state == SVPullToRefreshStateStopped && contentOffset.y < 0) {
+          CGFloat percent = (contentOffset.y + self.scrollView.contentInset.top)/(scrollOffsetThreshold + self.scrollView.contentInset.top);
+          id customView = [self.viewForState objectAtIndex:SVPullToRefreshStateTriggered];
+          BOOL hasCustomView = [customView isKindOfClass:[UIView class]];
+          if (hasCustomView && [customView conformsToProtocol:@protocol(SVLoadingViewProtocol)]) {
+            id<SVLoadingViewProtocol> loadingView = (id<SVLoadingViewProtocol>)customView;
+            if (fabs(contentOffset.y) == fabs(self.scrollView.contentInset.top)) {
+              if ([loadingView respondsToSelector:@selector(updateTriggerWithPercent:state:)]) {
+                [loadingView stopLoading];
+              }
+            } else if (percent > 0 && percent <=1 && [loadingView respondsToSelector:@selector(updateTriggerWithPercent:state:)]) {
+              [loadingView updateTriggerWithPercent:percent state:SVPullToRefreshStateTriggered];
+              
             }
+          }
         }
-        
-        
     } else {
         CGFloat offset;
         UIEdgeInsets contentInset;

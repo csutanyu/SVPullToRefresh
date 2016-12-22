@@ -48,9 +48,9 @@
     UIImage *image = dragingAnimationImages.firstObject;
     CGRect frame = CGRectMake(0, 0, image.size.width, image.size.height);
     self.imageView.frame = frame;
-    self.imageView.image = image;
+    //self.imageView.image = image;
     self.frame = frame;
-    self.currentImage = image;
+    //self.currentImage = image;
   }
 }
 
@@ -67,7 +67,7 @@
   if (self.imageView.isAnimating) {
     return;
   }
-  
+  self.imageView.hidden = NO;
   NSTimeInterval duration = 1.0;
 //  self.imageView.animationImages = self.loadingAnimationImages;
   self.imageView.animationDuration = duration;
@@ -81,6 +81,7 @@
     [self.imageView stopAnimating];
     self.imageView.image = nil;
   }
+  self.imageView.hidden = YES;
 }
 
 - (void)updateTriggerWithPercent:(CGFloat)percent state:(SVPullToRefreshState)state {
@@ -88,12 +89,13 @@
   [self stopLoading];
   
   if (state == SVPullToRefreshStateStopped) {
-    self.imageView.image = self.dragingAnimationImages.lastObject;
+    self.imageView.image = nil;
     return;
   }
   if (state == SVPullToRefreshStateAll || state == SVPullToRefreshStateLoading) {
     return;
   }
+  self.imageView.hidden = NO;
   CGFloat percentUnit = 1.0 / self.dragingAnimationImages.count;
   NSInteger index = floor((percent / percentUnit));
   if (index >= self.dragingAnimationImages.count - 1) {
