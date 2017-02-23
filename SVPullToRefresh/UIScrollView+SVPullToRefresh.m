@@ -40,7 +40,7 @@ static CGFloat const SVPullToRefreshViewHeight = 60;
 @property (nonatomic, strong) NSMutableArray *viewForState;
 
 @property (nonatomic, weak) UIScrollView *scrollView;
-@property (nonatomic, readwrite) CGFloat originalTopInset;
+//@property (nonatomic, readwrite) CGFloat originalTopInset;
 @property (nonatomic, readwrite) CGFloat originalBottomInset;
 
 @property (nonatomic, assign) BOOL wasTriggeredByUser;
